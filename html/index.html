@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Астролог Ольга Егорова</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :root {
+      --purple-dark: #2D1B69;
+      --blue-dark: #1a2b5c;
+      --indigo-dark: #2c1e5f;
+      --yellow-accent: #FFD700;
+      --orange-accent: #FFA500;
+      --text-light: #f0f4ff;
+      --bg-gradient: linear-gradient(to bottom, #4a148c, #1a237e, #311b92);
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-light);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: 60px 20px 100px;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .header-text {
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .header-text h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--yellow-accent), var(--orange-accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    .header-text .subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: #d0d9ff;
+    }
+
+    .header-text p {
+      font-size: 1.1rem;
+      margin: 0.6rem 0;
+      color: #b8c4ff;
+    }
+
+    .profile-container {
+      position: relative;
+    }
+
+    .profile-frame {
+      width: 240px;
+      height: 240px;
+      background: linear-gradient(to bottom right, #7b4cff, #3a7bd5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 4px solid var(--yellow-accent);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .profile-placeholder {
+      width: 220px;
+      height: 220px;
+      background: linear-gradient(to bottom right, #d1d5db, #9ca3af);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b5563;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .star-badge {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 50px;
+      height: 50px;
+      background: var(--yellow-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .star-badge i {
+      color: var(--purple-dark);
+      font-size: 1.4rem;
+    }
+
+    .calendar-badge {
+      position: absolute;
+      bottom: -15px;
+      left: -15px;
+      width: 40px;
+      height: 40px;
+      background: #60a5fa;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .calendar-badge i {
+      color: var(--purple-dark);
+      font-size: 1rem;
+    }
+
+    section {
+      padding: 80px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 60px;
+      background: linear-gradient(to right, var(--yellow-accent), var(--orange-accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .service-card:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 215, 0, 0.5);
+    }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: var(--yellow-accent);
+    }
+
+    .service-card p {
+      color: #c3d0ff;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    .service-card .price {
+      text-align: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--orange-accent);
+    }
+
+    .facts-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .fact-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid var(--yellow-accent);
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 16px;
+    }
+
+    .fact-number {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--yellow-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-dark);
+      font-weight: bold;
+    }
+
+    .fact-text {
+      color: #d0e0ff;
+      line-height: 1.6;
+    }
+
+    .quote {
+      text-align: center;
+      margin-top: 40px;
+      font-style: italic;
+      color: #e0e7ff;
+      font-size: 1.2rem;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(to bottom right, var(--yellow-accent), var(--orange-accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--purple-dark);
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .testimonial-name {
+      font-weight: bold;
+      color: var(--yellow-accent);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      color: #cfdaff;
+      line-height: 1.6;
+    }
+
+    .certificates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .certificate-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .certificate-placeholder {
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(to bottom right, #d1d5db, #9ca3af);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b5563;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+
+    .certificate-label {
+      font-size: 0.85rem;
+      color: #b8c4ff;
+    }
+
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .contact-icon {
+      font-size: 2rem;
+      color: var(--yellow-accent);
+      margin-bottom: 16px;
+    }
+
+    .contact-text {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    footer {
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: #b8c4ff;
+      font-size: 1rem;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: linear-gradient(to bottom right, #4a148c, #311b92);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+      color: white;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: var(--yellow-accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-title {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: var(--yellow-accent);
+    }
+
+    .modal-desc {
+      color: #d0e0ff;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-price {
+      text-align: right;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--orange-accent);
+      margin-bottom: 24px;
+    }
+
+    .modal-button {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, var(--yellow-accent), var(--orange-accent));
+      color: var(--purple-dark);
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .modal-button:hover {
+      opacity: 0.9;
+    }
+
+    @media (min-width: 768px) {
+      .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .header-text {
+        max-width: none;
+        text-align: left;
+      }
+
+      .header-text h1 {
+        font-size: 3.5rem;
+      }
+
+      .header-text .subtitle {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Астролог Ольга Егорова</h1>
+        <div class="subtitle">Астрология, которая работает</div>
+        <p>Опыт консультирования более 4-х лет</p>
+        <p>Выпускница школы К.Н. Дарагана</p>
+      </div>
+      <div class="profile-container">
+        <div class="profile-frame">
+          <div class="profile-placeholder">Фото Астролога</div>
+        </div>
+        <div class="star-badge">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="calendar-badge">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title">Услуги</h2>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <section id="about" style="background: rgba(255,255,255,0.03);">
+    <div class="container">
+      <h2 class="section-title">Обо мне</h2>
+      <div class="facts-list" id="factsList"></div>
+      <div class="quote">"Я буду рада поделиться с вами тайнами астрологии и открыть самые интересные главы в своей книге."</div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="container">
+      <h2 class="section-title">Отзывы</h2>
+      <div class="testimonials-grid" id="testimonialsGrid"></div>
+    </div>
+  </section>
+
+  <section id="certificates" style="background: rgba(255,255,255,0.03);">
+    <div class="container">
+      <h2 class="section-title">Сертификаты</h2>
+      <div class="certificates-grid" id="certificatesGrid"></div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="container">
+      <h2 class="section-title">Связаться со мной</h2>
+      <div class="contacts-grid">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="contact-text">+7 (XXX) XXX-XX-XX</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div class="contact-text">WhatsApp</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">
+            <i class="fab fa-telegram"></i>
+          </div>
+          <div class="contact-text">Telegram</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      &copy; 2025 Астролог Ольга Егорова. Все права защищены.
+    </div>
+  </footer>
+
+  <div class="modal" id="serviceModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-price" id="modalPrice"></div>
+      <button class="modal-button">Заказать консультацию</button>
+    </div>
+  </div>
+
+  <script>
+    const services = [
+      {
+        id: 1,
+        title: "Индивидуальная консультация",
+        shortDesc: "Глубокий разбор натальной карты",
+        fullDesc: "Полный разбор вашей натальной карты с анализом сильных и слабых сторон, жизненных задач, потенциала и рекомендациями по гармонизации всех сфер жизни.",
+        price: "5000 ₽"
+      },
+      {
+        id: 2,
+        title: "Прогноз на год",
+        shortDesc: "Планетарные транзиты и возможности",
+        fullDesc: "Детальный прогноз на предстоящий год с указанием ключевых периодов, благоприятных и сложных фаз, рекомендациями по использованию возможностей и нивелированию рисков.",
+        price: "4000 ₽"
+      },
+      {
+        id: 3,
+        title: "Синастрия отношений",
+        shortDesc: "Анализ совместимости пары",
+        fullDesc: "Комплексный анализ взаимодействия двух натальных карт для понимания динамики отношений, зон роста и потенциальных конфликтов. Подходит для пар, бизнес-партнеров, родителей и детей.",
+        price: "4500 ₽"
+      },
+      {
+        id: 4,
+        title: "Ректификация времени рождения",
+        shortDesc: "Уточнение точного времени рождения",
+        fullDesc: "Профессиональное определение точного времени рождения на основе ключевых событий в жизни клиента. Необходимо для точного составления натальной карты.",
+        price: "6000 ₽"
+      },
+      {
+        id: 5,
+        title: "Карта ребенка",
+        shortDesc: "Потенциал и предназначение ребенка",
+        fullDesc: "Анализ натальной карты ребенка с рекомендациями по развитию талантов, выбору направления обучения, профориентации и гармоничному воспитанию с учетом астрологических особенностей.",
+        price: "4500 ₽"
+      },
+      {
+        id: 6,
+        title: "Бизнес-астрология",
+        shortDesc: "Астрологический анализ бизнеса",
+        fullDesc: "Анализ благоприятных периодов для запуска проектов, выбора партнеров, расширения бизнеса и стратегического планирования на основе астрологических циклов.",
+        price: "5500 ₽"
+      }
+    ];
+
+    const facts = [
+      "Практика астролога более 4-х лет. 3 курса Школы Константина Дарагана и более 15 курсов углубленного изучения гороскопа",
+      "Опыт руководителя в крупной бизнес компании более 15 лет, я на себе проверила, как важно действовать точно и иметь нужных людей в команде.",
+      "У меня юридическое образование и более 20 бизнес тренингов по продажам и управлению командой",
+      "Курсы психологии и НЛП. Мои рекомендации по коррекции гороскопа основаны на астрологических показателях и нейролингвистической перепрошивке установок",
+      "Я мама 2-х сыновей, с первым я вышла из декрета в 3 месяца, со вторым в 2 недели, поэтому я точно знаю как совмещать материнство, развитие и профессиональную реализацию",
+      "Я обычная женщина, которая знает что такое выгорание, кризис развода и полная финансовая ответственность. Мне также как и всем приходилось решать сложные задачи в короткие сроки.",
+      "При всей своей занятости я очень люблю готовить сложные десерты, собирать всю семью за столом, выращивать растения и позволять себе иногда быть просто женщиной и мамой.",
+      "Я очень люблю свое дело, астрология открыла для меня новый мир, подарила астрологическое сообщество и позволило расширить свое мировоззрение и принятие.",
+      "Я постоянно учусь в разных сферах. И еще очень люблю горы и путешествия."
+    ];
+
+    const testimonials = [
+      {
+        name: "Анна К.",
+        text: "Консультация у Ольги стала настоящим прорывом для меня. Она не только точно описала мою ситуацию, но и дала четкие рекомендации, которые уже через месяц принесли результаты."
+      },
+      {
+        name: "Михаил В.",
+        text: "Обратился за анализом бизнес-карты. Ольга точно указала благоприятные периоды для запуска нового проекта. Все сработало идеально!"
+      },
+      {
+        name: "Елена С.",
+        text: "Заказала карту ребенка. Ольга не только раскрыла потенциал моего сына, но и помогла понять, как правильно поддерживать его развитие. Очень благодарна!"
+      }
+    ];
+
+    // Render Services
+    const servicesGrid = document.getElementById('servicesGrid');
+    services.forEach(service => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <h3>${service.title}</h3>
+        <p>${service.shortDesc}</p>
+        <div class="price">${service.price}</div>
+      `;
+      card.addEventListener('click', () => openServiceModal(service));
+      servicesGrid.appendChild(card);
+    });
+
+    // Render Facts
+    const factsList = document.getElementById('factsList');
+    facts.forEach((fact, index) => {
+      const item = document.createElement('div');
+      item.className = 'fact-item';
+      item.innerHTML = `
+        <div class="fact-number">${index + 1}</div>
+        <div class="fact-text">${fact}</div>
+      `;
+      factsList.appendChild(item);
+    });
+
+    // Render Testimonials
+    const testimonialsGrid = document.getElementById('testimonialsGrid');
+    testimonials.forEach(testimonial => {
+      const initials = testimonial.name.split(' ').map(n => n[0]).join('');
+      const card = document.createElement('div');
+      card.className = 'testimonial-card';
+      card.innerHTML = `
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">${initials}</div>
+          <div class="testimonial-name">${testimonial.name}</div>
+        </div>
+        <div class="testimonial-text">"${testimonial.text}"</div>
+      `;
+      testimonialsGrid.appendChild(card);
+    });
+
+    // Render Certificates
+    const certificatesGrid = document.getElementById('certificatesGrid');
+    for (let i = 1; i <= 4; i++) {
+      const card = document.createElement('div');
+      card.className = 'certificate-card';
+      card.innerHTML = `
+        <div class="certificate-placeholder">Сертификат ${i}</div>
+        <div class="certificate-label">Официальный документ</div>
+      `;
+      certificatesGrid.appendChild(card);
+    }
+
+    // Modal functionality
+    const modal = document.getElementById('serviceModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalClose = document.getElementById('modalClose');
+
+    function openServiceModal(service) {
+      modalTitle.textContent = service.title;
+      modalDesc.textContent = service.fullDesc;
+      modalPrice.textContent = service.price;
+      modal.classList.add('active');
+    }
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
+
