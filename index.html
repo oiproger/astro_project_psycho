@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Астролог Ольга Егорова</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
@@ -14,18 +15,25 @@
     }
 
     :root {
-      --purple-dark: #2D1B69;
-      --blue-dark: #1a2b5c;
-      --indigo-dark: #2c1e5f;
+      --purple-dark: #4a2c8c;
+      --blue-dark: #2c3e7d;
+      --indigo-dark: #3b2a7a;
       --yellow-accent: #FFD700;
-      --orange-accent: #FFA500;
-      --text-light: #f0f4ff;
-      --bg-gradient: linear-gradient(to bottom, #4a148c, #1a237e, #311b92);
+      --orange-accent: #FF8C00;
+      --text-dark: #2d3748;
+      --text-light: #4a5568;
+      --bg-light: #f8f9ff;
+      --card-bg: #ffffff;
+      --border-light: #e2e8f0;
     }
 
     body {
-      background: var(--bg-gradient);
-      color: var(--text-light);
+      /* background: var(--bg-light); */
+      background-image: url("background.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      color: var(--text-dark);
       min-height: 100vh;
       overflow-x: hidden;
     }
@@ -34,6 +42,8 @@
       position: relative;
       overflow: hidden;
       padding: 60px 20px 100px;
+      background: linear-gradient(135deg, #f0f4ff9d 0%, #e6edff9d 100%);
+      backdrop-filter: blur(5px);
     }
 
     .header-content {
@@ -53,7 +63,7 @@
     .header-text h1 {
       font-size: 2.8rem;
       margin-bottom: 1rem;
-      background: linear-gradient(to right, var(--yellow-accent), var(--orange-accent));
+      background: linear-gradient(to right, var(--purple-dark), var(--indigo-dark));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -63,13 +73,14 @@
     .header-text .subtitle {
       font-size: 1.5rem;
       margin-bottom: 2rem;
-      color: #d0d9ff;
+      color: var(--blue-dark);
+      font-weight: 600;
     }
 
     .header-text p {
       font-size: 1.1rem;
       margin: 0.6rem 0;
-      color: #b8c4ff;
+      color: var(--text-light);
     }
 
     .profile-container {
@@ -79,24 +90,27 @@
     .profile-frame {
       width: 240px;
       height: 240px;
-      background: linear-gradient(to bottom right, #7b4cff, #3a7bd5);
+      background: linear-gradient(to bottom right, var(--purple-dark), var(--blue-dark));
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 4px solid var(--yellow-accent);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 30px rgba(74, 44, 140, 0.2);
     }
 
     .profile-placeholder {
       width: 220px;
       height: 220px;
-      background: linear-gradient(to bottom right, #d1d5db, #9ca3af);
+      background: linear-gradient(to bottom right, #e2e8f0, #cbd5e0);
+      background-image: url("photo11.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #4b5563;
+      color: var(--text-dark);
       font-weight: bold;
       font-size: 1.1rem;
       text-align: center;
@@ -114,7 +128,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .star-badge i {
@@ -128,16 +142,16 @@
       left: -15px;
       width: 40px;
       height: 40px;
-      background: #60a5fa;
+      background: #63b3ed;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
     .calendar-badge i {
-      color: var(--purple-dark);
+      color: white;
       font-size: 1rem;
     }
 
@@ -154,7 +168,7 @@
       font-size: 2.5rem;
       text-align: center;
       margin-bottom: 60px;
-      background: linear-gradient(to right, var(--yellow-accent), var(--orange-accent));
+      background: linear-gradient(to right, var(--purple-dark), var(--indigo-dark));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -169,28 +183,29 @@
     }
 
     .service-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 24px;
       cursor: pointer;
       transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .service-card:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 215, 0, 0.5);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(74, 44, 140, 0.15);
+      border-color: var(--yellow-accent);
     }
 
     .service-card h3 {
       font-size: 1.3rem;
       margin-bottom: 12px;
-      color: var(--yellow-accent);
+      color: var(--purple-dark);
     }
 
     .service-card p {
-      color: #c3d0ff;
+      color: var(--text-light);
       margin-bottom: 16px;
       font-size: 1rem;
     }
@@ -202,6 +217,7 @@
       color: var(--orange-accent);
     }
 
+    /* Обновлённый стиль для фактов — полумесяц слева на светлом фоне */
     .facts-list {
       max-width: 800px;
       margin: 0 auto;
@@ -211,36 +227,40 @@
       display: flex;
       gap: 16px;
       padding: 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border-left: 4px solid var(--yellow-accent);
+      background: var(--card-bg);
       border-radius: 0 12px 12px 0;
       margin-bottom: 16px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-left: 3px solid var(--yellow-accent);
     }
 
-    .fact-number {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
+    .fact-item::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 40px;
       background: var(--yellow-accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--purple-dark);
-      font-weight: bold;
+      border-radius: 0 10px 10px 0;
+      box-shadow: 2px 0 8px rgba(255, 215, 0, 0.3);
     }
 
     .fact-text {
-      color: #d0e0ff;
+      color: var(--text-dark);
       line-height: 1.6;
+      padding-left: 12px;
     }
 
     .quote {
       text-align: center;
       margin-top: 40px;
       font-style: italic;
-      color: #e0e7ff;
+      color: var(--blue-dark);
       font-size: 1.2rem;
+      font-weight: 500;
     }
 
     .testimonials-grid {
@@ -251,10 +271,11 @@
     }
 
     .testimonial-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .testimonial-header {
@@ -274,16 +295,17 @@
       color: var(--purple-dark);
       font-weight: bold;
       margin-right: 12px;
+      font-size: 1.1rem;
     }
 
     .testimonial-name {
       font-weight: bold;
-      color: var(--yellow-accent);
+      color: var(--purple-dark);
     }
 
     .testimonial-text {
       font-style: italic;
-      color: #cfdaff;
+      color: var(--text-light);
       line-height: 1.6;
     }
 
@@ -295,30 +317,31 @@
     }
 
     .certificate-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--card-bg);
       border-radius: 12px;
       padding: 16px;
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
 
     .certificate-placeholder {
       width: 100%;
       height: 100px;
-      background: linear-gradient(to bottom right, #d1d5db, #9ca3af);
+      background: linear-gradient(to bottom right, #e2e8f0, #cbd5e0);
       border-radius: 8px;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #4b5563;
+      color: var(--text-dark);
       font-size: 0.8rem;
       font-weight: bold;
     }
 
     .certificate-label {
       font-size: 0.85rem;
-      color: #b8c4ff;
+      color: var(--text-light);
     }
 
     .contacts-grid {
@@ -329,30 +352,33 @@
     }
 
     .contact-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: var(--card-bg);
       border-radius: 16px;
       padding: 24px;
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .contact-icon {
       font-size: 2rem;
-      color: var(--yellow-accent);
+      color: var(--purple-dark);
       margin-bottom: 16px;
     }
 
     .contact-text {
       font-size: 1.2rem;
       font-weight: bold;
+      color: var(--text-dark);
     }
 
     footer {
       padding: 30px 20px;
       text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      color: #b8c4ff;
+      border-top: 1px solid var(--border-light);
+      color: var(--text-light);
       font-size: 1rem;
+      background: var(--bg-light);
     }
 
     .modal {
@@ -361,7 +387,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(5px);
       display: flex;
       justify-content: center;
@@ -378,14 +404,15 @@
     }
 
     .modal-content {
-      background: linear-gradient(to bottom right, #4a148c, #311b92);
-      border: 2px solid rgba(255, 215, 0, 0.3);
+      background: var(--card-bg);
+      border: 2px solid var(--yellow-accent);
       border-radius: 20px;
       padding: 30px;
       width: 90%;
       max-width: 600px;
       position: relative;
-      color: white;
+      color: var(--text-dark);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     }
 
     .modal-close {
@@ -394,19 +421,21 @@
       right: 15px;
       background: none;
       border: none;
-      color: var(--yellow-accent);
+      color: var(--purple-dark);
       font-size: 1.5rem;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .modal-title {
       font-size: 1.8rem;
       margin-bottom: 16px;
-      color: var(--yellow-accent);
+      color: var(--purple-dark);
+      font-weight: 700;
     }
 
     .modal-desc {
-      color: #d0e0ff;
+      color: var(--text-dark);
       line-height: 1.6;
       margin-bottom: 20px;
     }
@@ -431,10 +460,12 @@
       font-size: 1.1rem;
       cursor: pointer;
       transition: opacity 0.3s;
+      box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
     }
 
     .modal-button:hover {
       opacity: 0.9;
+      transform: translateY(-2px);
     }
 
     @media (min-width: 768px) {
@@ -459,6 +490,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -471,7 +503,7 @@
       </div>
       <div class="profile-container">
         <div class="profile-frame">
-          <div class="profile-placeholder">Фото Астролога</div>
+          <div class="profile-placeholder"></div>
         </div>
         <div class="star-badge">
           <i class="fas fa-star"></i>
@@ -490,11 +522,12 @@
     </div>
   </section>
 
-  <section id="about" style="background: rgba(255,255,255,0.03);">
+  <section id="about" style="background: #f0f4ff9d; backdrop-filter: blur(5px);">
     <div class="container">
       <h2 class="section-title">Обо мне</h2>
       <div class="facts-list" id="factsList"></div>
-      <div class="quote">"Я буду рада поделиться с вами тайнами астрологии и открыть самые интересные главы в своей книге."</div>
+      <div class="quote">"Я буду рада поделиться с вами тайнами астрологии и открыть самые интересные главы в своей
+        книге."</div>
     </div>
   </section>
 
@@ -505,7 +538,7 @@
     </div>
   </section>
 
-  <section id="certificates" style="background: rgba(255,255,255,0.03);">
+  <section id="certificates" style="background: #f0f4ff9d; backdrop-filter: blur(5px);">
     <div class="container">
       <h2 class="section-title">Сертификаты</h2>
       <div class="certificates-grid" id="certificatesGrid"></div>
@@ -557,46 +590,88 @@
   <script>
     const services = [
       {
+        id: 0,
+        title: "Натальная карта. Персональный гороскоп рождения.",
+        shortDesc: "Таланты, риски, путь мечты",
+        fullDesc: "На консультации вы узнаете: *В чем потенциал вашей карты и как его раскрыть.* Как смягчить острые углы и обойти напряжение. * Как выстроить гармоничные отношения и найти мотивацию к действиям. * Узнаете о своих скрытых способностях и явных талантах. * Найдете ответы, как дружить, воспитывать детей и самое главное как себя мотивировать и наполнять.",
+        price: "10000 ₽"
+      },
+      {
         id: 1,
-        title: "Индивидуальная консультация",
-        shortDesc: "Глубокий разбор натальной карты",
-        fullDesc: "Полный разбор вашей натальной карты с анализом сильных и слабых сторон, жизненных задач, потенциала и рекомендациями по гармонизации всех сфер жизни.",
-        price: "5000 ₽"
+        title: "Детский гороскоп",
+        shortDesc: "Ребёнок — вселенная для понимания",
+        fullDesc: "На консультации вы узнаете: * Таланты вашего ребенка. * Его сильные и слабые черты характера.* Раскроете его психологический мир и поймете как с ним договариваться.*Вам станет понятно, что его мотивирует к действию, а что демотивирует. * Поймете, как он видит маму и папу, что в его жизни означают бабушки, дедушки, братья и сестры.* Узнаете, как ребенку адаптироваться в детском саду и школе. * Определите тот кружок, который в дальнейшем станет его профессией, а не будет забыт с первыми шагами в самостоятельность.",
+        price: "7500 ₽"
       },
       {
         id: 2,
-        title: "Прогноз на год",
-        shortDesc: "Планетарные транзиты и возможности",
-        fullDesc: "Детальный прогноз на предстоящий год с указанием ключевых периодов, благоприятных и сложных фаз, рекомендациями по использованию возможностей и нивелированию рисков.",
-        price: "4000 ₽"
+        title: "Гороскоп на месяц",
+        shortDesc: "Месяц: план, сила, результат",
+        fullDesc: "Детальный прогноз на предстоящий месяц с указанием ключевых периодов, благоприятных и сложных фаз, рекомендациями по использованию возможностей и нивелированию рисков.",
+        price: "2500 ₽"
       },
       {
         id: 3,
-        title: "Синастрия отношений",
-        shortDesc: "Анализ совместимости пары",
-        fullDesc: "Комплексный анализ взаимодействия двух натальных карт для понимания динамики отношений, зон роста и потенциальных конфликтов. Подходит для пар, бизнес-партнеров, родителей и детей.",
-        price: "4500 ₽"
+        title: "Гороскоп на год",
+        shortDesc: "Годовой гороскоп для тех, кто управляет",
+        fullDesc: "На консультации вы узнаете: * В какие периоды лучше предпринимать те или иные действия. * На чем держать фокус в этом году.* Какие у вас есть возможности и риски.* Где вы сможете проявиться максимально, а за что лучше не браться.* Что вас ждет в карьере, браке, финансах.* От кого ждать поддержку, а контактов с кем лучше избегать.",
+        price: "10000 ₽"
       },
       {
         id: 4,
-        title: "Ректификация времени рождения",
-        shortDesc: "Уточнение точного времени рождения",
-        fullDesc: "Профессиональное определение точного времени рождения на основе ключевых событий в жизни клиента. Необходимо для точного составления натальной карты.",
-        price: "6000 ₽"
+        title: "Гороскоп бизнеса",
+        shortDesc: "Бизнес-астрология: стратегия и точность",
+        fullDesc: "У бизнеса также как и у человека есть своя натальная карта, есть периоды риска и возможностей. Периоды когда стоит взять паузу и когда нельзя медлить. На консультации вы узнаете: * Тенденции роста и развития на этот год.* Сильные стороны вашего бизнеса. * Риски и неожиданные повороты. * Вы получите ответ, как ваши ключевые сотрудники влияют на ваш бизнес, являются они локомотивом команды или провокаторами.* Вы получите астрокалендарь с датами под ваши события. Когда лучше выходить с маркетингом, а когда заниматься командой.",
+        price: "20000 ₽"
       },
       {
         id: 5,
-        title: "Карта ребенка",
-        shortDesc: "Потенциал и предназначение ребенка",
-        fullDesc: "Анализ натальной карты ребенка с рекомендациями по развитию талантов, выбору направления обучения, профориентации и гармоничному воспитанию с учетом астрологических особенностей.",
-        price: "4500 ₽"
+        title: "Деньги в гороскопе. Стратегия роста дохода",
+        shortDesc: "Деньги: лёгкий или трудный путь",
+        fullDesc: "На консультации вы узнаете: * Варианты заработка в вашей карте. * Копить или тратить.* Как усилить финансовый поток и оставить время на себя.* Кто и как влияет на ваши финансы.",
+        price: "9999 ₽"
       },
       {
         id: 6,
-        title: "Бизнес-астрология",
-        shortDesc: "Астрологический анализ бизнеса",
+        title: "Профориентация",
+        shortDesc: "Профессия: выбрать без ошибок",
+        fullDesc: "На консультации вы узнаете: * В чем ваша сила и таланты.* Какие ваши таланты можно монетизировать, а какие важно развивать, чтобы получать удовольствие.* Где вы сильнее — во фрилансе или найме, а может в собственном бизнесе.* Что приведет вас к славе и нужна ли она вам на самом деле.",
+        price: "8500 ₽"
+      },
+      {
+        id: 7,
+        title: "Отношения. Синастрия. Совместимость с партнером, ребенком, начальником",
+        shortDesc: "Союз: без ссор и с перспективой",
+        fullDesc: "На консультации вы узнаете: * сильные и слабые стороны вашего союза. * что укрепляет отношения, а что разрушает* возможен ли между вами совместный бизнес* как вы относитесь к воспитанию детей и как договориться, не впутывая в это ребенка.* что вы ждете друг от друга в партнерстве и способны ли оправдать ожидания.",
+        price: "10000 ₽"
+      },
+      {
+        id: 8,
+        title: "Ректификация. Установление времени рождения",
+        shortDesc: "Уточнение времени рождения",
+        fullDesc: "Кнопка анкета и анкета",
+        price: "от 1500 ₽ до 3500 ₽"
+      },
+      {
+        id: 9,
+        title: "Элекция. Подбор даты для старта важного события",
+        shortDesc: "Идеальное время для важного старта",
         fullDesc: "Анализ благоприятных периодов для запуска проектов, выбора партнеров, расширения бизнеса и стратегического планирования на основе астрологических циклов.",
-        price: "5500 ₽"
+        price: "5000 ₽"
+      },
+      {
+        id: 10,
+        title: "Хорар. Ответ на вопрос без времени рождения",
+        shortDesc: "Ответ на срочный вопрос",
+        fullDesc: "От вас требуется только лишь зафиксировать дату и время вопроса, когда он просто не выходил у вас из головы. Хорар поможет принять правильное решение в конкретном моменте. Примеры вопросов: * когда лучше продавать, покупать, строить* стоит ли переезжать* вернут ли долг * он/она меня любит* мне кажется меня обманывают, это так? * стоит ли вступать в отношения.",
+        price: "2000 ₽"
+      },
+      {
+        id: 11,
+        title: "Компенсаторика. Годовое сопровождение для проработки напряжения в карте",
+        shortDesc: "Переписать свой астрологический сценарий",
+        fullDesc: "Годовое сопровождение включает: * Анализ сфер, которые вы хотите изменить.* Расчет дат, когда важно запускать новые действия. * Практики и рекомендации по перезапуску. * Точная рекомендация, что и когда нужно сделать.",
+        price: "50000 ₽"
       }
     ];
 
@@ -641,15 +716,12 @@
       servicesGrid.appendChild(card);
     });
 
-    // Render Facts
+    // Render Facts — с полумесяцем
     const factsList = document.getElementById('factsList');
-    facts.forEach((fact, index) => {
+    facts.forEach(fact => {
       const item = document.createElement('div');
       item.className = 'fact-item';
-      item.innerHTML = `
-        <div class="fact-number">${index + 1}</div>
-        <div class="fact-text">${fact}</div>
-      `;
+      item.innerHTML = `<div class="fact-text">${fact}</div>`;
       factsList.appendChild(item);
     });
 
@@ -706,4 +778,5 @@
     });
   </script>
 </body>
+
 </html>
