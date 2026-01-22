@@ -468,24 +468,150 @@
       transform: translateY(-2px);
     }
 
-    @media (min-width: 768px) {
-      .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        text-align: left;
-      }
+    /* Модалка сертификата */
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
 
-      .header-text {
-        max-width: none;
-        text-align: left;
-      }
+    .image-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
+    .image-modal-content {
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .image-modal img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .image-modal-title {
+      color: white;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      text-align: center;
+      max-width: 90vw;
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: rgba(0,0,0,0.5);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Адаптация под мобильные устройства */
+    @media (max-width: 768px) {
       .header-text h1 {
-        font-size: 3.5rem;
+        font-size: 2.2rem;
       }
 
       .header-text .subtitle {
+        font-size: 1.3rem;
+      }
+
+      .section-title {
         font-size: 2rem;
+      }
+
+      .modal-content {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .modal-title {
+        font-size: 1.4rem;
+      }
+
+      .modal-desc {
+        font-size: 0.95rem;
+      }
+
+      .modal-price {
+        font-size: 1.1rem;
+      }
+
+      .service-card .price {
+        font-size: 1.1rem;
+      }
+
+      .profile-frame {
+        width: 200px;
+        height: 200px;
+      }
+
+      .profile-placeholder {
+        width: 180px;
+        height: 180px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.6rem;
+      }
+
+      .header-text .subtitle {
+        font-size: 1.10rem;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .modal-desc {
+        font-size: 0.75rem;
+      }
+
+      .modal-price {
+        font-size: 1.1rem;
+      }
+
+      .service-card .price {
+        font-size: 1.0rem;
+      }
+
+      .service-card h3 {
+        font-size: 1.0rem;
+      }
+
+      .fact-item::before {
+        width: 16px;
+        height: 32px;
+      }
+
+      .fact-text {
+        font-size: 0.95rem;
       }
     }
   </style>
@@ -549,19 +675,7 @@
     <div class="container">
       <h2 class="section-title">Связаться со мной</h2>
       <div class="contacts-grid">
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="fas fa-phone"></i>
-          </div>
-          <div class="contact-text">+7 (XXX) XXX-XX-XX</div>
-        </div>
-        <div class="contact-card">
-          <div class="contact-icon">
-            <i class="fab fa-whatsapp"></i>
-          </div>
-          <div class="contact-text">WhatsApp</div>
-        </div>
-        <div class="contact-card">
+        <div class="contact-card orderButton" style="cursor: pointer;">
           <div class="contact-icon">
             <i class="fab fa-telegram"></i>
           </div>
@@ -573,7 +687,7 @@
 
   <footer>
     <div class="container">
-      &copy; 2025 Астролог Ольга Егорова. Все права защищены.
+      &copy; 2026 Астролог Ольга Егорова. Все права защищены.
     </div>
   </footer>
 
@@ -583,20 +697,49 @@
       <h3 class="modal-title" id="modalTitle"></h3>
       <p class="modal-desc" id="modalDesc"></p>
       <div class="modal-price" id="modalPrice"></div>
-      <button class="modal-button">Заказать консультацию</button>
+      <button class="modal-button orderButton" id="orderButton">Заказать консультацию</button>
+    </div>
+  </div>
+
+  <div class="image-modal" id="imageModal">
+    <div class="image-modal-content">
+      <span class="image-modal-close" id="imageModalClose">&times;</span>
+      <img id="modalImage" src="" alt="Сертификат">
+      <div class="image-modal-title" id="modalImageTitle"></div>
     </div>
   </div>
 
   <script>
+    // Telegram username (замените на реальный)
+    const TELEGRAM_USERNAME = 'Olya2294';
+
+    // Сертификаты: путь к изображению + название
+    const certificates = [
+      { src: "./certs/cert_1.jpg", },
+      { src: "./certs/cert_2.jpg", },
+      { src: "./certs/cert_3.jpg", },
+      { src: "./certs/cert_4.jpg", },
+      { src: "./certs/cert_5.jpg", },
+      { src: "./certs/cert_6.jpg", },
+      { src: "./certs/cert_7.jpg", },
+      { src: "./certs/cert_8.jpg", },
+      { src: "./certs/cert_9.jpg", },
+      { src: "./certs/cert_10.jpg", },
+      { src: "./certs/cert_11.jpg", },
+      { src: "./certs/cert_12.jpg", },
+      { src: "./certs/cert_13.jpg", },
+      { src: "./certs/cert_14.jpg", },
+    ];
+
     const services = [
       {
         id: 0,
         title: "Натальная карта. Персональный гороскоп рождения.",
         shortDesc: "Таланты, риски, путь мечты",
-        fullDesc: `Структурированный анализ вашей карты рождения.Это не про судьбу, а про вашу внутреннюю операционную систему: врожденные стратегии, источники энергии, зоны роста и базовые сценарии.Основа для всех дальнейших решений.
-· На консультации вы получите:
-  · Четкую схему своих сильных сторон и ресурсов, на которые можно опираться.
-  · Понимание глубинных мотивов и повторяющихся сценариев.
+        fullDesc: `Структурированный анализ вашей карты рождения.Это не про судьбу, а про вашу внутреннюю операционную систему: врожденные стратегии, источники энергии, зоны роста и базовые сценарии.Основа для всех дальнейших решений.<br/>
+  <b>На консультации вы получите:</b><br/>
+  · Четкую схему своих сильных сторон и ресурсов, на которые можно опираться.<br/>
+  · Понимание глубинных мотивов и повторяющихся сценариев.<br/>
   · Практические рекомендации по гармонизации ключевых сфер жизни. - Описание основных сценариев по всем сферам жизни - работа, семья, дети, отношения, недвижимость, хобби и таланты`,
         price: "15000 (повторная 12000)₽"
       },
@@ -604,10 +747,11 @@
         id: 1,
         title: "Детский гороскоп",
         shortDesc: "Ребёнок — вселенная для понимания",
-        fullDesc: ` Анализ врожденного типа мышления, эмоционального склада и способа восприятия мира вашего ребенка. Помощь в выборе методов воспитания, кружков и формата обучения, которые подходят именно ему. Ваша совместимость с ребенком. Как стать ребенку любящим родителем. а не строгим учителем.                                                                          На консультации вы получите:
-  · Понимание, как ваш ребенок лучше всего учится и коммуницирует. Как ему дружить и проявляться.
-  · Ясность в выборе развивающих занятий, соответствующих его талантам.
-  · Ключи к гармоничным отношениям без борьбы и недопонимания. Способы мотивации, а не принуждения.`,
+        fullDesc: ` Анализ врожденного типа мышления, эмоционального склада и способа восприятия мира вашего ребенка. Помощь в выборе методов воспитания, кружков и формата обучения, которые подходят именно ему. Ваша совместимость с ребенком. Как стать ребенку любящим родителем. а не строгим учителем.
+  <br/><b>На консультации вы получите:</b>
+  <br/>· Понимание, как ваш ребенок лучше всего учится и коммуницирует. Как ему дружить и проявляться.
+  <br/>· Ясность в выборе развивающих занятий, соответствующих его талантам.
+  <br/>· Ключи к гармоничным отношениям без борьбы и недопонимания. Способы мотивации, а не принуждения.`,
         price: "12000 (повторная 10000)₽"
       },
       {
@@ -622,10 +766,10 @@
         title: "Гороскоп на год",
         shortDesc: "Годовой гороскоп для тех, кто управляет",
         fullDesc: `Анализ ключевых тенденций и точек роста на предстоящий год. Вы получаете не предсказания, а карту для навигации: когда лучше запускать проекты, когда — консолидировать ресурсы, а когда — работать над отношениями. Когда учиться и развиваться, а когда дать себе возможность отдохнуть.
-На консультации вы получите:
-  · Календарь благоприятных и сложных периодов по сферам жизни.
-  · Конкретные рекомендации по действиям в каждый сезон.
-  · План года, который позволяет двигаться в потоке, а не бороться с течением.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· Календарь благоприятных и сложных периодов по сферам жизни.
+  <br/>· Конкретные рекомендации по действиям в каждый сезон.
+  <br/>· План года, который позволяет двигаться в потоке, а не бороться с течением.`,
         price: "15000 (после разбора 10000) ₽"
       },
       {
@@ -633,10 +777,10 @@
         title: "Профориентация и финансы в гороскопе",
         shortDesc: "Профессия: выбрать без ошибок",
         fullDesc: `Выявление врожденных профессиональных архетипов, подходящих сфер и форматов работы. Анализ финансовой карты: ваши естественные стратегии для заработка, инвестирования и сохранения капитала.
-На консультации вы получите:
-  · Список наиболее подходящих профессиональных направлений. Для подростков выбор направления и специализации.
-  · Понимание своих «денежных сценариев» и как их скорректировать.
-  · Практические шаги для повышения дохода и финансовой устойчивости.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· Список наиболее подходящих профессиональных направлений. Для подростков выбор направления и специализации.
+  <br/>· Понимание своих «денежных сценариев» и как их скорректировать.
+  <br/>· Практические шаги для повышения дохода и финансовой устойчивости.`,
         price: "12000 ₽"
       },
       {
@@ -644,10 +788,10 @@
         title: "Отношения и совместимость с партнером",
         shortDesc: "Анализ потенциала и развития партнерских отношений",
         fullDesc: `Объективный разбор  карт двух людей. Вы поймете корни притяжения, основные «узлы» недопонимания и, самое главное, — практические пути к гармонии. Как дополнять, а не конфликтовать.
-На консультации вы получите:
-  · Карту точек взаимной поддержки и возможных трений.
-  · Конкретные рекомендации по коммуникации и совместным действиям.
-  · Понимание общего потенциала и задач союза.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· Карту точек взаимной поддержки и возможных трений.
+  <br/>· Конкретные рекомендации по коммуникации и совместным действиям.
+  <br/>· Понимание общего потенциала и задач союза.`,
         price: "14000 ₽"
       },
       {
@@ -655,10 +799,10 @@
         title: "Гороскоп бизнеса",
         shortDesc: "Структурный анализ бизнеса (проекта)",
         fullDesc: ` Целостный взгляд на ваш бизнес или стартап: анализ жизнеспособности концепции, идентификация скрытых рисков, подбор оптимальных дат для ключевых действий. Инструмент для принятия стратегических решений.
-На консультации вы получите:
-  · Оценку сильных и слабых сторон проекта с новой точки зрения.
-  · Рекомендации по календарю важных бизнес-событий.
-  · Понимание циклов активности и спада для лучшего планирования.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· Оценку сильных и слабых сторон проекта с новой точки зрения.
+  <br/>· Рекомендации по календарю важных бизнес-событий.
+  <br/>· Понимание циклов активности и спада для лучшего планирования.`,
         price: "15000 ₽"
       },
       {
@@ -666,10 +810,10 @@
         title: "Бизнес-сопровождение и формирование команды",
         shortDesc: "Астрологический консалтинг для руководителя",
         fullDesc: `Инструмент для собственников и топ-менеджеров. Анализ карты компании, подбор сотрудников на ключевые должности по критериям энергетического соответствия задачам, выбор дат для стратегических шагов. Работа с «портретом» идеального кандидата.
-· Итог консультации/сопровождения вы получите:
-  · Критерии для оценки кандидатов с точки зрения ролевой функции.
-  · Календарь благоприятных периодов для найма, переговоров, запусков.
-  · Рекомендации по расстановке сил и управлению командной динамикой.`,
+<br/><b>Итог консультации/сопровождения вы получите:</b>
+  <br/>· Критерии для оценки кандидатов с точки зрения ролевой функции.
+  <br/>· Календарь благоприятных периодов для найма, переговоров, запусков.
+  <br/>· Рекомендации по расстановке сил и управлению командной динамикой.`,
         price: "3 пакета от 25000 до 70000 ₽. Оценка кандидата на топ должность 7000 ₽"
       },
       {
@@ -677,9 +821,9 @@
         title: "Ректификация. Установление времени рождения",
         shortDesc: "Уточнение времени рождения",
         fullDesc: ` Техническая процедура ректификации времени рождения по ключевым жизненным событиям. Необходима для корректной работы всех прогностических и аналитических методик.
-На  консультации вы получите:
-  · Уточненное время рождения с высокой степенью вероятности.
-  · Проверенную и точную натальную карту как основу для дальнейшей работы.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· Уточненное время рождения с высокой степенью вероятности.
+  <br/>· Проверенную и точную натальную карту как основу для дальнейшей работы.`,
         price: "от 2500 ₽"
       },
       {
@@ -688,9 +832,9 @@
         shortDesc: "Идеальное время для важного старта",
         fullDesc: `
 Прикладной инструмент для планирования. На основе астрологических принципов подбирается наиболее гармоничная дата и время для запуска проекта, свадьбы, подписания контракта, переезда или важной процедуры.
-На консультации вы получите:
-  · 2-3 оптимальные даты для вашего события с пояснением, почему они эффективны.
-  · Рекомендации по времени начала в выбранный день.`,
+<br/><b>На консультации вы получите:</b>
+  <br/>· 2-3 оптимальные даты для вашего события с пояснением, почему они эффективны.
+  <br/>· Рекомендации по времени начала в выбранный день.`,
       price: "от 3500 ₽"
       },
     ];
@@ -762,16 +906,17 @@
     });
 
     // Render Certificates
-    const certificatesGrid = document.getElementById('certificatesGrid');
-    for (let i = 1; i <= 4; i++) {
-      const card = document.createElement('div');
-      card.className = 'certificate-card';
-      card.innerHTML = `
-        <div class="certificate-placeholder">Сертификат ${i}</div>
-        <div class="certificate-label">Официальный документ</div>
+      const certificatesGrid = document.getElementById('certificatesGrid');
+      certificates.forEach(cert => {
+        const card = document.createElement('div');
+        card.className = 'certificate-card';
+        card.innerHTML = `
+        <div class="certificate-image" style="background-image: url('${cert.src}'); background-size: cover; background-position: center; height: 10vh;"></div>
+        <div class="certificate-label">${""}</div>
       `;
-      certificatesGrid.appendChild(card);
-    }
+        card.addEventListener('click', () => openCertificateModal(cert));
+        certificatesGrid.appendChild(card);
+      });
 
     // Modal functionality
     const modal = document.getElementById('serviceModal');
@@ -779,23 +924,65 @@
     const modalDesc = document.getElementById('modalDesc');
     const modalPrice = document.getElementById('modalPrice');
     const modalClose = document.getElementById('modalClose');
+    const orderButton = document.getElementsByClassName('orderButton');
 
     function openServiceModal(service) {
       modalTitle.textContent = service.title;
-      modalDesc.textContent = service.fullDesc;
+      modalDesc.innerHTML = service.fullDesc;
       modalPrice.textContent = service.price;
       modal.classList.add('active');
     }
 
-    modalClose.addEventListener('click', () => {
+    function closeServiceModal() {
       modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeServiceModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeServiceModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) closeServiceModal();
     });
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
+    for (const obj in orderButton) {
+      const hObj = orderButton[obj];
+      if (typeof hObj === "object") {
+        hObj.addEventListener('click', () => {
+          window.open(`https://t.me/${TELEGRAM_USERNAME}`, '_blank');
+          closeServiceModal();
+        });
       }
-    });
+    }
+
+    // Сертификат
+      const imageModal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalImageTitle = document.getElementById('modalImageTitle');
+      const imageModalClose = document.getElementById('imageModalClose');
+
+      function openCertificateModal(cert) {
+        modalImage.src = cert.src;
+        modalImage.alt = cert.title;
+        modalImageTitle.textContent = cert.title;
+        imageModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCertificateModal() {
+        imageModal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      imageModalClose.addEventListener('click', closeCertificateModal);
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) closeCertificateModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) closeCertificateModal();
+      });
+
   </script>
 </body>
 
